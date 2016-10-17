@@ -40,12 +40,19 @@
 
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <title>Hello World</title>
+
+    <style type="text/css">
+        .active{
+            background: red;
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body>
     <div style="float: left; width: 100%; margin-top: 100px;">
-        <button id="btnStart" style="float: left; width: 100%; margin-top: 10px;">Start Recording</button>
-        <button id="btnStop" style="float: left; width: 100%; margin-top: 10px;">Stop Recording</button>
+        <button id="btnStart" style="float: left; width: 100%; margin-top: 10px;">Opnemen beginnen</button>
+        <button id="btnStop" style="float: left; width: 100%; margin-top: 10px;">Opnemen stoppen</button>
     </div>
     
     <script type="text/javascript" src="cordova.js"></script>
@@ -65,10 +72,10 @@
 
         function startRecording()
         {
-            var src = "FinalAudio.wav";
+            var src = "myrecording.wav";
             myMedia = new Media(src, onSuccess, onError);
             myMedia.startRecord();
-            alert("Started recording");
+            $('#btnStart').addClass('active');
          }
         function onSuccess() {
             console.log("Created Audio for Recording");
@@ -81,8 +88,31 @@
         {
             myMedia.stopRecord();
             alert("Stopped recording");
+            $('#btnStart').removeClass('active');
             myMedia.play();
         }
+
+        // Record audio
+    // 
+    // function recordAudio() {
+    //     var src = "myrecording.wav";
+    //     var mediaRec = new Media(src, onSuccess, onError);
+
+    //     // Record audio
+    //     mediaRec.startRecord();
+
+    //     // Stop recording after 10 sec
+    //     var recTime = 0;
+    //     var recInterval = setInterval(function() {
+    //         recTime = recTime + 1;
+    //         setAudioPosition(recTime + " sec");
+    //         if (recTime >= 3) {
+    //             clearInterval(recInterval);
+    //             mediaRec.stopRecord();
+    //             mediaRec.play();
+    //         }
+    //     }, 1000);
+    // }
 
         /*
 
