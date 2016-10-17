@@ -54,6 +54,8 @@
         <button id="btnStart" style="float: left; width: 100%; margin-top: 10px;">Opnemen beginnen</button>
         <button id="btnStop" style="float: left; width: 100%; margin-top: 10px;">Opnemen stoppen</button>
     </div>
+
+    <audio id="audio-play"  controls="controls" src="" type="audio/wav"></audio>
     
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
@@ -65,31 +67,58 @@
 
         function onDeviceReady()
         {
-            $("#btnStart").click(function () { startRecording(); });
+            $("#btnStart").click(function () { recordAudio(); });
             $("#btnStop").click(function () { stopRecording(); });
         }
         onDeviceReady();
 
-        function startRecording()
-        {
+        // function startRecording()
+        // {
+        //     var src = "myrecording.wav";
+        //     myMedia = new Media(src, onSuccess, onError);
+        //     myMedia.startRecord();
+        //     $('#btnStart').addClass('active');
+        //  }
+        // function onSuccess() {
+        //     console.log("Created Audio for Recording");
+        // }
+        // function onError(error) {
+        //     alert('code: '    + error.code    + '\n' +
+        //           'message: ' + error.message + '\n');
+        // }
+        // function stopRecording()
+        // {
+        //     myMedia.stopRecord();
+        //     alert("Stopped recording");
+        //     jQuery('#audio-play').attr('src', myMedia.src);
+        //     console.log(myMedia.src);
+        //     $('#btnStart').removeClass('active');
+        //     //myMedia.play();
+        // }
+
+        function recordAudio() {
             var src = "myrecording.wav";
-            myMedia = new Media(src, onSuccess, onError);
-            myMedia.startRecord();
-            $('#btnStart').addClass('active');
-         }
-        function onSuccess() {
-            console.log("Created Audio for Recording");
-        }
-        function onError(error) {
-            alert('code: '    + error.code    + '\n' +
-                  'message: ' + error.message + '\n');
-        }
-        function stopRecording()
-        {
-            myMedia.stopRecord();
-            alert("Stopped recording");
-            $('#btnStart').removeClass('active');
-            myMedia.play();
+            var mediaRec = new Media(src,
+                // success callback
+                function() {
+                    console.log("recordAudio():Audio Success");
+                },
+
+                // error callback
+                function(err) {
+                    console.log("recordAudio():Audio Error: "+ err.code);
+                });
+
+            // Record audio
+            mediaRec.startRecord();
+
+            // Stop recording after 5 seconds
+            setTimeout(function() {
+                mediaRec.stopRecord();
+                mediaRec.play();
+                console.log(mediaRec);
+                jQuery('#audio-play').attr('src', mediaRec.src);
+            }, 5000);
         }
 
         // Record audio
